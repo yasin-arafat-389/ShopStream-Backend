@@ -3,6 +3,9 @@ import { ProductControllers } from './product.controller';
 
 const router = express.Router();
 
+// Search a product route
+router.get('/api/products', ProductControllers.searchProduct);
+
 // Create new product route
 router.post('/api/products', ProductControllers.createNewProduct);
 

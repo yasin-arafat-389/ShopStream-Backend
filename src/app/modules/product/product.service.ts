@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TProduct } from './product.interface';
 import ProductModel from './product.model';
 
@@ -32,10 +33,25 @@ const deleteProduct = async (productId: string) => {
   return result;
 };
 
+const searchProduct = async (searchTerm: any) => {
+  const regex = new RegExp(searchTerm, 'i');
+
+  const result = await ProductModel.find({
+    $or: [
+      { name: { $regex: regex } },
+      { description: { $regex: regex } },
+      { category: { $regex: regex } },
+      { tags: { $regex: regex } },
+    ],
+  });
+  return result;
+};
+
 export const ProductServices = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   updateProductInfo,
   deleteProduct,
+  searchProduct,
 };
