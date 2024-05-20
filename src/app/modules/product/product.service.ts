@@ -24,9 +24,18 @@ const updateProductInfo = async (productId: string, productData: TProduct) => {
   return result;
 };
 
+const deleteProduct = async (productId: string) => {
+  const result = await ProductModel.findByIdAndDelete(productId, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
 export const ProductServices = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   updateProductInfo,
+  deleteProduct,
 };
