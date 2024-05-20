@@ -24,15 +24,21 @@ const ProductSchemaZod = z.object({
 });
 
 // Create Mongoose schemas
-const VariantSchema = new Schema<TVariant>({
-  type: { type: String, required: true },
-  value: { type: String, required: true },
-});
+const VariantSchema = new Schema<TVariant>(
+  {
+    type: { type: String, required: true },
+    value: { type: String, required: true },
+  },
+  { _id: false },
+);
 
-const InventorySchema = new Schema<TInventory>({
-  quantity: { type: Number, required: true },
-  inStock: { type: Boolean, required: true },
-});
+const InventorySchema = new Schema<TInventory>(
+  {
+    quantity: { type: Number, required: true },
+    inStock: { type: Boolean, required: true },
+  },
+  { _id: false },
+);
 
 const ProductSchema = new Schema<TProduct>({
   name: { type: String, required: true },

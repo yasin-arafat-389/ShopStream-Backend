@@ -8,13 +8,31 @@ const createNewProduct = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'Student is created succesfully',
+      message: 'Product created successfully!',
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Something went wrong!!',
+      details: error.message,
+    });
+  }
+};
+
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProduct();
+
+    res.status(200).json({
+      success: true,
+      message: 'Products fetched successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong!!',
       details: error.message,
     });
   }
@@ -22,4 +40,5 @@ const createNewProduct = async (req: Request, res: Response) => {
 
 export const ProductControllers = {
   createNewProduct,
+  getAllProduct,
 };
