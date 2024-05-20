@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 
@@ -10,9 +11,12 @@ const createNewProduct = async (req: Request, res: Response) => {
       message: 'Student is created succesfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
-    res.send({ message: 'Something went wrong' });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      details: error.message,
+    });
   }
 };
 
