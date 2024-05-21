@@ -28,10 +28,10 @@ Make sure you have the following installed on your machine:
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/yasin-arafat-389/ShopStream-Backend
+```bash
+git clone https://github.com/yasin-arafat-389/ShopStream-Backend
 
-   ```
+```
 
 2. Install the dependencies:
 
