@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { Application } from 'express';
+import express, { Application, Request, Response } from 'express';
 import { ProductRoutes } from './app/modules/product/product.route';
 import { OrderRoutes } from './app/modules/order/order.route';
 
@@ -14,5 +14,13 @@ app.use('/api/products', ProductRoutes);
 
 // Order routes
 app.use('/api/orders', OrderRoutes);
+
+// Catch all middleware for handling undefined routes
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+  });
+});
 
 export default app;

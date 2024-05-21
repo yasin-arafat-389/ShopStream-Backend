@@ -97,6 +97,10 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 const searchProduct = async (req: Request, res: Response) => {
   try {
+    if (!req.query.searchTerm) {
+      return getAllProduct(req, res);
+    }
+
     const { searchTerm } = req.query;
     const result = await ProductServices.searchProduct(searchTerm);
 
