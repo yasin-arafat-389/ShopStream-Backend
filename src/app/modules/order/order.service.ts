@@ -11,7 +11,13 @@ const retrieveAllOrders = async () => {
   return result;
 };
 
+const retrieveAllOrdersByUserEmail = async (email: string) => {
+  const result = await OrderModel.find({ email });
+  return result;
+};
+
 export const OrderServices = {
   createOrder,
   retrieveAllOrders,
+  retrieveAllOrdersByUserEmail,
 };
