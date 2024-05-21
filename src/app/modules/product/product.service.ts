@@ -7,9 +7,25 @@ const createProduct = async (product: TProduct) => {
   return result;
 };
 
-const getAllProduct = async () => {
-  const result = await ProductModel.find();
-  return result;
+const getAllProduct = async (searchTerm: any) => {
+  if (searchTerm === null) {
+    const result = await ProductModel.find();
+    return result;
+  }
+
+  if (searchTerm) {
+    const regex = new RegExp(searchTerm, 'i');
+
+    const result = await ProductModel.find({
+      $or: [
+        { name: { $regex: regex } },
+        { description: { $regex: regex } },
+        { category: { $regex: regex } },
+        { tags: { $regex: regex } },
+      ],
+    });
+    return result;
+  }
 };
 
 const getSingleProduct = async (productId: string) => {
@@ -33,25 +49,10 @@ const deleteProduct = async (productId: string) => {
   return result;
 };
 
-const searchProduct = async (searchTerm: any) => {
-  const regex = new RegExp(searchTerm, 'i');
-
-  const result = await ProductModel.find({
-    $or: [
-      { name: { $regex: regex } },
-      { description: { $regex: regex } },
-      { category: { $regex: regex } },
-      { tags: { $regex: regex } },
-    ],
-  });
-  return result;
-};
-
 export const ProductServices = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   updateProductInfo,
   deleteProduct,
-  searchProduct,
 };
