@@ -6,6 +6,12 @@ const createOrder = async (order: TOrder) => {
   return result;
 };
 
+const retrieveAllOrders = async () => {
+  const result = await OrderModel.find();
+  return result;
+};
+
 export const OrderServices = {
   createOrder,
+  retrieveAllOrders,
 };
