@@ -37,10 +37,16 @@ const getSingleProduct = async (productId: string) => {
 };
 
 const updateProductInfo = async (productId: string, productData: TProduct) => {
-  const result = await ProductModel.findByIdAndUpdate(productId, productData, {
-    new: true,
-    runValidators: true,
-  });
+  const parsedProductData = validateProduct.parse(productData);
+
+  const result = await ProductModel.findByIdAndUpdate(
+    productId,
+    parsedProductData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
   return result;
 };
 
