@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TProduct } from './product.interface';
 import ProductModel from './product.model';
+import { validateProduct } from './product.validation';
 
 const createProduct = async (product: TProduct) => {
-  const result = await ProductModel.create(product);
+  const parsedProduct = validateProduct.parse(product);
+
+  const result = await ProductModel.create(parsedProduct);
   return result;
 };
 

@@ -21,38 +21,27 @@ const createNewOrder = async (req: Request, res: Response) => {
 
 const retrieveAllOrders = async (req: Request, res: Response) => {
   try {
-    const result = await OrderServices.retrieveAllOrders();
-
-    res.status(200).json({
-      success: true,
-      message: 'Orders fetched successfully!',
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong!!',
-      details: error.message,
-    });
-  }
-};
-
-const retrieveAllOrdersByUserEmail = async (req: Request, res: Response) => {
-  try {
     if (!req.query.email) {
-      return retrieveAllOrders(req, res);
+      const result = await OrderServices.retrieveAllOrders(null);
+
+      res.status(200).json({
+        success: true,
+        message: 'Orders fetched successfully!',
+        data: result,
+      });
     }
 
-    const { email } = req.query;
-    const result = await OrderServices.retrieveAllOrdersByUserEmail(
-      email as string,
-    );
+    if (req.query.email) {
+      const result = await OrderServices.retrieveAllOrders(
+        req.query.email as string,
+      );
 
-    res.status(200).json({
-      success: true,
-      message: 'Orders fetched successfully for user email!',
-      data: result,
-    });
+      res.status(200).json({
+        success: true,
+        message: 'Orders fetched successfully for user email!',
+        data: result,
+      });
+    }
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -65,5 +54,4 @@ const retrieveAllOrdersByUserEmail = async (req: Request, res: Response) => {
 export const OrderControllers = {
   createNewOrder,
   retrieveAllOrders,
-  retrieveAllOrdersByUserEmail,
 };

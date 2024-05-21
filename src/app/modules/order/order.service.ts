@@ -1,9 +1,16 @@
+import mongoose from 'mongoose';
 import ProductModel from '../product/product.model';
 import { TOrder } from './order.interface';
 import { OrderModel } from './order.model';
+import { validateOrder } from './order.validation';
 
 const createOrder = async (order: TOrder) => {
   const { productId, quantity } = order;
+
+  // Validate productId format
+  if (!mongoose.Types.ObjectId.isValid(productId)) {
+    throw new Error('Invalid product ID format');
+  }
 
   // Find the product by its ID
   const product = await ProductModel.findById(productId);
@@ -18,8 +25,11 @@ const createOrder = async (order: TOrder) => {
     throw new Error('Insufficient quantity available in inventory');
   }
 
+  // Validate the payload
+  const parsedOrderData = validateOrder.parse(order);
+
   // Create a new order instance with the provided order data
-  const newOrder = new OrderModel(order);
+  const newOrder = new OrderModel(parsedOrderData);
 
   // Reduce the inventory quantity by the ordered quantity
   product.inventory.quantity -= quantity;
@@ -36,18 +46,19 @@ const createOrder = async (order: TOrder) => {
   return newOrder;
 };
 
-const retrieveAllOrders = async () => {
-  const result = await OrderModel.find();
-  return result;
-};
+const retrieveAllOrders = async (email: string | null) => {
+  if (!email) {
+    const result = await OrderModel.find();
+    return result;
+  }
 
-const retrieveAllOrdersByUserEmail = async (email: string) => {
-  const result = await OrderModel.find({ email });
-  return result;
+  if (email) {
+    const result = await OrderModel.find({ email });
+    return result;
+  }
 };
 
 export const OrderServices = {
   createOrder,
   retrieveAllOrders,
-  retrieveAllOrdersByUserEmail,
 };

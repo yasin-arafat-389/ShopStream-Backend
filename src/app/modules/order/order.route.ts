@@ -3,10 +3,7 @@ import { OrderControllers } from './order.controller';
 
 const router = express.Router();
 
-// Reatrive all orders by user email route
-router.get('/', OrderControllers.retrieveAllOrdersByUserEmail);
-
-// Reatrive all orders route
+// Retrieve all orders route
 router.get('/', OrderControllers.retrieveAllOrders);
 
 // Create new order route
